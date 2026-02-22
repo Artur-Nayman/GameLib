@@ -1,120 +1,182 @@
-🎮 GameLib: The Ultimate Games Aggregator
+---
 
-GameLib is a high-performance web application designed for gamers to centralize their libraries from different platforms like Steam, Epic Games, and GOG. It focuses on inventory management, duplicate prevention, and cross-platform library viewing.
-🚀 Technical Stack
-Frontend
+# 🎮 GameLib – The Ultimate Games Aggregator
 
-    Library: React.js (Vite-powered)
+**GameLib** is a high-performance web application that allows gamers to centralize their libraries from multiple platforms such as Steam, Epic Games, and GOG.
 
-    State Management: Zustand
+The application focuses on:
 
-    Styling: Tailwind CSS v4 + PostCSS
+* 📦 Inventory management
+* 🔁 Duplicate prevention
+* 🌍 Cross-platform library viewing
+* 🐧 Linux & Steam Deck compatibility insights
 
-    Icons: Lucide-React
+---
 
-    API Client: Axios
+# 🚀 Tech Stack
 
-Backend
+## Frontend
 
-    Runtime: Node.js
+* **Library:** React.js (powered by Vite)
+* **State Management:** Zustand
+* **Styling:** Tailwind CSS v4 + PostCSS
+* **Icons:** Lucide-React
+* **HTTP Client:** Axios
 
-    Framework: Express.js
+## Backend
 
-    Database: PostgreSQL (Structured via SQL)
+* **Runtime:** Node.js
+* **Framework:** Express.js
+* **Database:** PostgreSQL (structured with SQL)
+* **Authentication:** JWT (JSON Web Tokens) + Bcrypt
 
-    Authentication: JWT (JSON Web Tokens) & Bcrypt
+## External Data Providers
 
-External Data Providers
+* **Steam API** – Real-time user library synchronization
+* **IGDB (Twitch API)** – Game metadata, tags, and categories
+* **SteamGridDB** – High-quality vertical posters (600×900)
+* **ProtonDB** – Linux & Steam Deck compatibility status
 
-    Steam API: Real-time library synchronization.
+---
 
-    IGDB (Twitch API): Professional game metadata, tags, and categories.
+# 📁 Project Structure
 
-    SteamGridDB: High-fidelity vertical game posters (600x900).
+GameLib uses a **monorepo architecture** to keep both client and server code organized in a single repository.
 
-    ProtonDB: Linux & Steam Deck compatibility status.
-
-📁 Project Structure
-
-The project uses a Monorepo structure to keep the client and server code organized in one place:
-Plaintext
-
+```
 gamelib/
-├── client/                # Frontend: React Application
+├── client/                # Frontend (React + Vite)
 │   ├── src/
 │   │   ├── components/    # Reusable UI components
 │   │   ├── store/         # Zustand state stores
 │   │   ├── assets/        # Static assets & global styles
 │   │   └── App.jsx        # Main application entry
-│   ├── tailwind.config.js # Tailwind v4 configuration
+│   ├── tailwind.config.js
 │   └── package.json
-├── server/                # Backend: Node.js API
+│
+├── server/                # Backend (Node.js + Express)
 │   ├── src/
 │   │   ├── controllers/   # Request handlers
 │   │   ├── routes/        # API route definitions
 │   │   ├── services/      # External API integrations
 │   │   └── app.js         # Express server entry
-│   └── .env               # Environment secrets
+│   ├── package.json
+│   └── .env               # Environment variables
+│
 └── README.md
+```
 
-🛠️ Environment Setup
+---
 
-To run this project locally, you need to set up environment variables for both the server and client.
-Server (server/.env)
+# 🛠️ Environment Setup
 
+To run the project locally, configure environment variables for both **server** and **client**.
 
+## Server (`server/.env`)
+
+```
 PORT=5000
 DB_HOST=localhost
 DB_NAME=gamelib_db
+DB_USER=your_db_user
+DB_PASSWORD=your_db_password
+
 JWT_SECRET=your_jwt_secret
+
 STEAM_API_KEY=your_steam_key
 IGDB_CLIENT_ID=your_igdb_id
 IGDB_CLIENT_SECRET=your_igdb_secret
 STEAMGRIDDB_API_KEY=your_steamgrid_key
+```
 
-Client (client/.env)
+## Client (`client/.env`)
 
-
+```
 VITE_API_URL=http://localhost:5000/api/v1
+```
 
-⚙️ Installation & Getting Started
-1. Clone the repository
-Bash
+---
 
+# ⚙️ Installation & Getting Started
+
+## 1️⃣ Clone the Repository
+
+```bash
 git clone https://github.com/yourusername/gamelib.git
 cd gamelib
+```
 
-2. Setup the Server
-Bash
+---
 
+## 2️⃣ Setup the Server
+
+```bash
 cd server
 npm install
 npm run dev
+```
 
-3. Setup the Client
-Bash
+The backend server will run on:
 
+```
+http://localhost:5000
+```
+
+---
+
+## 3️⃣ Setup the Client
+
+```bash
 cd ../client
 npm install --legacy-peer-deps
 npm run dev
+```
 
-    Note: The --legacy-peer-deps flag is required to handle ESLint versioning conflicts between Vite and React.
+The frontend will be available at:
 
-✨ Key Features
+```
+http://localhost:5173
+```
 
-    Platform Sync: Connect Steam, Epic, and GOG accounts to fetch owned games.
+> ⚠️ The `--legacy-peer-deps` flag is required to resolve ESLint version conflicts between Vite and React.
 
-    Deduplication Engine: Automatically merges same games from different stores into one entry.
+---
 
-    Visual Grid: Beautiful 2:3 aspect ratio posters fetched via SteamGridDB.
+# ✨ Key Features
 
-    Proton Status: Instant check if a game is playable on Linux or Steam Deck.
+* 🔗 **Platform Sync**
+  Connect Steam, Epic, and GOG accounts to fetch owned games.
 
-    Library Comparison: Compare collections with friends to find common games.
+* 🧠 **Deduplication Engine**
+  Automatically merges identical games from different stores into a single unified entry.
 
-    Privacy First: Hide specific games or entire profiles from public search.
+* 🖼️ **Visual Grid Interface**
+  Clean 2:3 poster layout powered by SteamGridDB assets.
 
+* 🐧 **Proton Status Check**
+  Instantly verify Linux & Steam Deck compatibility.
 
-📄 License
+* 👥 **Library Comparison**
+  Compare collections with friends to discover shared titles.
 
-This project is developed for educational purposes. All rights to game-related data and images belong to their respective owners (Steam, Valve, IGDB, etc.)
+* 🔒 **Privacy Controls**
+  Hide specific games or entire profiles from public search.
+
+---
+
+# 🧪 Development Notes
+
+* PostgreSQL must be running locally before starting the server.
+* API keys for Steam, IGDB, and SteamGridDB are required for full functionality.
+* Make sure CORS is properly configured in the backend for local development.
+
+---
+
+# 📄 License
+
+This project is developed for **educational purposes only**.
+
+All rights to game-related data, images, and platform assets belong to their respective owners (Steam, Valve, IGDB, etc.).
+
+---
+
