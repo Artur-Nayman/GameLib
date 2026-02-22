@@ -32,7 +32,7 @@ The application focuses on:
 
 * **Steam API** – Real-time user library synchronization
 * **IGDB (Twitch API)** – Game metadata, tags, and categories
-* **SteamGridDB** – High-quality vertical posters (600×900)
+* **SteamGridDB** – High-quality posters
 * **ProtonDB** – Linux & Steam Deck compatibility status
 
 ---
