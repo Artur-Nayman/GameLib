@@ -1,5 +1,3 @@
----
-
 # 🎮 GameLib – The Ultimate Games Aggregator
 
 **GameLib** is a high-performance web application that allows gamers to centralize their libraries from multiple platforms such as Steam, Epic Games, and GOG.
