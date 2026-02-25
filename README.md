@@ -147,7 +147,9 @@ We follow **Scrum methodologies**. To maintain a clean and scalable codebase, pl
 ---
 
 **Project Lead, Lead Developer & Scrum Master:** Artur Nayman
+
 **Infrastructure Engineer & Full-stack Developer:** Sami-Severi Sjöberg
+
 **Frontend Developer & Agile Consultant:** Susanna Lehtinen
 
 **Project Status:** Active Development (Phase 1: Foundation & Sync)
