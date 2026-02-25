@@ -1,180 +1,153 @@
 # 🎮 GameLib – The Ultimate Games Aggregator
 
-**GameLib** is a high-performance web application that allows gamers to centralize their libraries from multiple platforms such as Steam, Epic Games, and GOG.
+**GameLib** is a high-performance web application designed to help gamers centralize their fragmented libraries from multiple platforms—such as Steam, Epic Games, and GOG—into a single, unified ecosystem.
 
-The application focuses on:
-
-* 📦 Inventory management
-* 🔁 Duplicate prevention
-* 🌍 Cross-platform library viewing
-* 🐧 Linux & Steam Deck compatibility insights
+The project focuses on intelligent automation, cross-platform metadata synchronization, and advanced data deduplication to bridge the gap between isolated digital storefronts.
 
 ---
 
-# 🚀 Tech Stack
+## 🛠 Technical Stack
 
-## Frontend
+### Frontend
 
-* **Library:** React.js (powered by Vite)
+* **Library:** React.js (Vite)
 * **State Management:** Zustand
 * **Styling:** Tailwind CSS v4 + PostCSS
-* **Icons:** Lucide-React
-* **HTTP Client:** Axios
+* **Infrastructure:** Dockerized
 
-## Backend
+### Backend
 
-* **Runtime:** Node.js
-* **Framework:** Express.js
-* **Database:** PostgreSQL (structured with SQL)
-* **Authentication:** JWT (JSON Web Tokens) + Bcrypt
-
-## External Data Providers
-
-* **Steam API** – Real-time user library synchronization
-* **IGDB (Twitch API)** – Game metadata, tags, and categories
-* **SteamGridDB** – High-quality posters
-* **ProtonDB** – Linux & Steam Deck compatibility status
+* **Runtime:** Node.js + Express.js
+* **Database:** PostgreSQL (3NF Compliance)
+* **Auth:** JWT + Bcrypt
+* **Infrastructure:** Dockerized (PostgreSQL 15-alpine)
 
 ---
 
-# 📁 Project Structure
+## 🏗 Project Architecture & Docker
 
-GameLib uses a **monorepo architecture** to keep both client and server code organized in a single repository.
+GameLib follows a **Client-Server** model isolated within a Dockerized infrastructure. This ensures all developers work in a perfectly synchronized environment regardless of their host Operating System.
 
-```
+### Repository Structure:
+
+```text
 gamelib/
 ├── client/                # Frontend (React + Vite)
-│   ├── src/
-│   │   ├── components/    # Reusable UI components
-│   │   ├── store/         # Zustand state stores
-│   │   ├── assets/        # Static assets & global styles
-│   │   └── App.jsx        # Main application entry
-│   ├── tailwind.config.js
-│   └── package.json
-│
-├── server/                # Backend (Node.js + Express)
-│   ├── src/
-│   │   ├── controllers/   # Request handlers
-│   │   ├── routes/        # API route definitions
-│   │   ├── services/      # External API integrations
-│   │   └── app.js         # Express server entry
-│   ├── package.json
-│   └── .env               # Environment variables
-│
-└── README.md
+├── server/                # Backend (Node.js API)
+├── docker-compose.yml     # Container Orchestration
+├── .env.example           # Environment variables template
+└── README.md              # Project documentation
+
 ```
 
 ---
 
-# 🛠️ Environment Setup
+## 🚀 Quick Start (Docker)
 
-To run the project locally, configure environment variables for both **server** and **client**.
+This is the **recommended** way to run the project for development.
 
-## Server (`server/.env`)
-
-```
-PORT=5000
-DB_HOST=localhost
-DB_NAME=gamelib_db
-DB_USER=your_db_user
-DB_PASSWORD=your_db_password
-
-JWT_SECRET=your_jwt_secret
-
-STEAM_API_KEY=your_steam_key
-IGDB_CLIENT_ID=your_igdb_id
-IGDB_CLIENT_SECRET=your_igdb_secret
-STEAMGRIDDB_API_KEY=your_steamgrid_key
-```
-
-## Client (`client/.env`)
-
-```
-VITE_API_URL=http://localhost:5000/api/v1
-```
-
----
-
-# ⚙️ Installation & Getting Started
-
-## 1️⃣ Clone the Repository
-
+1. **Clone the repository:**
 ```bash
-git clone https://github.com/yourusername/gamelib.git
-cd gamelib
+git clone https://github.com/Artur-Nayman/GameLib.git
+cd GameLib
+
 ```
+
+
+2. **Set up Environment Variables:**
+Create a `.env` file in the root directory based on the template:
+```bash
+cp .env.example .env
+
+```
+
+
+*Open `.env` and provide your local API keys for Steam, IGDB, and SteamGridDB.*
+3. **Launch the environment:**
+```bash
+docker-compose up --build
+
+```
+
+
+
+**Access Points:**
+
+* **Frontend:** [http://localhost:5173](https://www.google.com/search?q=http://localhost:5173)
+* **Backend API:** [http://localhost:5000](https://www.google.com/search?q=http://localhost:5000)
+* **Database:** `localhost:5432`
 
 ---
 
-## 2️⃣ Setup the Server
+## 🛠 Manual Setup (Non-Docker)
+
+If you prefer running services manually on your host machine:
+
+### 1. Backend (Server)
 
 ```bash
 cd server
 npm install
 npm run dev
-```
-
-The backend server will run on:
 
 ```
-http://localhost:5000
-```
 
----
-
-## 3️⃣ Setup the Client
+### 2. Frontend (Client)
 
 ```bash
-cd ../client
+cd client
 npm install --legacy-peer-deps
 npm run dev
-```
-
-The frontend will be available at:
 
 ```
-http://localhost:5173
-```
 
-> ⚠️ The `--legacy-peer-deps` flag is required to resolve ESLint version conflicts between Vite and React.
+*Note: The `--legacy-peer-deps` flag is required to resolve ESLint version conflicts between Vite and React.*
 
 ---
 
-# ✨ Key Features
+## 💻 Developer Workflow
 
-* 🔗 **Platform Sync**
-  Connect Steam, Epic, and GOG accounts to fetch owned games.
+### Hot Reloading
 
-* 🧠 **Deduplication Engine**
-  Automatically merges identical games from different stores into a single unified entry.
+By using **Docker Volumes**, any changes made to the code in the `/client` or `/server` directories will instantly reflect inside the running containers without needing a rebuild or restart.
 
-* 🖼️ **Visual Grid Interface**
-  Clean 2:3 poster layout powered by SteamGridDB assets.
+### Adding New Dependencies
 
-* 🐧 **Proton Status Check**
-  Instantly verify Linux & Steam Deck compatibility.
+If you need to install a new package (e.g., `npm install axios`):
 
-* 👥 **Library Comparison**
-  Compare collections with friends to discover shared titles.
+1. Install it locally in the respective folder.
+2. Rebuild the containers to update the image: `docker-compose up --build`.
 
-* 🔒 **Privacy Controls**
-  Hide specific games or entire profiles from public search.
+### Internal Networking
+
+When running via Docker, the Backend connects to the database using the hostname **`db`** (defined in docker-compose), not `localhost`.
+Example: `DATABASE_URL=postgres://user:password@db:5432/gamelib`
 
 ---
 
-# 🧪 Development Notes
+## 🌿 Git Policy & Scrum Rules
 
-* PostgreSQL must be running locally before starting the server.
-* API keys for Steam, IGDB, and SteamGridDB are required for full functionality.
-* Make sure CORS is properly configured in the backend for local development.
+We follow **Scrum methodologies**. To maintain a clean and scalable codebase, please adhere to the following branching strategy:
 
----
-
-# 📄 License
-
-This project is developed for **educational purposes only**.
-
-All rights to game-related data, images, and platform assets belong to their respective owners (Steam, Valve, IGDB, etc.).
+* **main**: Production-ready code only. Direct commits are strictly prohibited.
+* **develop**: Integration branch for new features.
+* **feature/feature-name**: Create a separate branch from `develop` for every task.
+* **Pull Requests**: All code must undergo **Code Review** by the Lead Developer before being merged into the `develop` branch.
 
 ---
 
+## ✨ Key Features (Roadmap)
+
+* 🔗 **Platform Sync**: Seamless integration with Steam, Epic, and GOG via APIs.
+* 🧠 **Deduplication Engine**: Intelligent merging of identical titles into a "Master Record" (3NF architecture).
+* 🖼️ **Visual Grid Interface**: High-quality 2:3 poster layout powered by SteamGridDB.
+* 🐧 **Proton Status**: Instant Linux & Steam Deck compatibility verification via ProtonDB metadata.
+* 👥 **Social Comparison**: Library comparison tools to discover shared games with friends.
+
+---
+
+**Lead Developer / Scrum Master:** Artur Nayman
+
+**Project Status:** Active Development (Phase 1: Foundation & Sync)
+
+**Organization:** theFirma – Turku University of Applied Sciences

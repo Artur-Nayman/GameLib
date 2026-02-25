@@ -16,3 +16,11 @@ client/dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+# Docker
+pgdata/
+
+# Logs & Builds
+server/dist/
+client/build/
