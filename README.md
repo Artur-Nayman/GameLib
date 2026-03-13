@@ -44,7 +44,7 @@ gamelib/
 
 ## 🚀 Quick Start (Docker)
 
-This is the **recommended** way to run the project for development.
+This is the **recommended** way to run the project for development. Before starting, install Docker Desktop.
 
 1. **Clone the repository:**
 ```bash
