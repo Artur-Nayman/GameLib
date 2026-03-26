@@ -21,6 +21,7 @@ The project focuses on intelligent automation, cross-platform metadata synchroni
 * **Database:** PostgreSQL (3NF Compliance)
 * **Auth:** JWT + Bcrypt
 * **Infrastructure:** Dockerized (PostgreSQL 15-alpine)
+* **Prisma** For ORM Visualizer
 
 ---
 
