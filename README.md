@@ -43,66 +43,42 @@ gamelib/
 
 ---
 
-## 🚀 Quick Start (Docker)
+## 🚀 Quick Start (Recommended)
 
-This is the **recommended** way to run the project for development. Before starting, install Docker Desktop.
-
-1. **Clone the repository:**
+1. **Clone & Setup:**
 ```bash
 git clone https://github.com/Artur-Nayman/GameLib.git
 cd GameLib
-
+cp .env.example .env  # Configure your .env
 ```
 
-
-2. **Set up Environment Variables:**
-Create a `.env` file in the root directory based on the template:
+2. **Launch Services:**
+The easiest way is to use the integrated root-level scripts:
 ```bash
-cp .env.example .env
-
+npm run db:up         # Start the database container
+npm run install-all   # Install all dependencies (Client & Server)
+npm run prisma:migrate # Apply database migrations
+npm run dev           # Launch both Client & Server concurrently
 ```
 
-
-*Open `.env` and provide your local API keys for Steam, IGDB, and SteamGridDB.*
-3. **Launch the environment:**
-```bash
-docker-compose up --build
-
-```
-
-
-
-**Access Points:**
-
-* **Frontend:** [http://localhost:5173](https://www.google.com/search?q=http://localhost:5173)
-* **Backend API:** [http://localhost:5000](https://www.google.com/search?q=http://localhost:5000)
-* **Database:** `localhost:5432`
+*Windows Users: You can also double-click **`dev.bat`** to start everything in separate windows.*
 
 ---
 
-## 🛠 Manual Setup (Non-Docker)
+## 🛠 Project Management Scripts
 
-If you prefer running services manually on your host machine:
+You can run these from the root directory to manage both parts of the project:
 
-### 1. Backend (Server)
+- **`npm run dev`**: Starts everything (Client + Server).
+- **`npm run install-all`**: Installs dependencies for both directories.
+- **`npm run db:up`**: Starts only the Postgres database in Docker.
+- **`npm run db:down`**: Stops all project containers.
+- **`npm run prisma:migrate`**: Syncs your local database with the Prisma schema.
+- **`npm run prisma:studio`**: Opens the Prisma Studio database viewer.
 
-```bash
-cd server
-npm install
-npm run dev
+---
 
-```
-
-### 2. Frontend (Client)
-
-```bash
-cd client
-npm install --legacy-peer-deps
-npm run dev
-
-```
-
-*Note: The `--legacy-peer-deps` flag is required to resolve ESLint version conflicts between Vite and React.*
+## 🏗 Project Architecture
 
 ---
 
