@@ -78,10 +78,6 @@ You can run these from the root directory to manage both parts of the project:
 
 ---
 
-## 🏗 Project Architecture
-
----
-
 ## 💻 Developer Workflow
 
 ### Hot Reloading
