@@ -33,7 +33,7 @@ export default function AuthLayout() {
         }   
     }
     return (
-        <div classname="flex h-screen bg-[#1a1c23] text-white">{/* Left side of screen: Static (Here goes Logo) */}
+        <div className="flex h-screen bg-[#1a1c23] text-white">{/* Left side of screen: Static (Here goes Logo) */}
         <div className="flex-1 flex flex-col justify-center items-center border-r border-gray-600">
             <img src="/logo.png" alt="GameLib Logo" className="w-48 mb-8" />
             <h1 className="text-5xl font-bold mt-4 text-[#a3e6d7]">GameLib</h1>
@@ -41,8 +41,7 @@ export default function AuthLayout() {
 
         {/* Right side of screen: Dynamic (Here goes Login/Register forms) */}
         <div className="flex-1 flex justify-center items-center">
-            {/* This is where the Login/Register forms will be rendered */}
-            {/* You can use React Router's Outlet component here to render the child routes */}
+            {renderContent()}
         </div>
 
         </div>

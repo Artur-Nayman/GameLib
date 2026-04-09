@@ -1,30 +1,22 @@
-import useGameStore from './store/useGameStore'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import useAuthStore from './store/useAuthStore'
 
-function App() {
-  const { games, addGame } = useGameStore()
+import AuthLayout from './pages/AuthLayout';
+import LibraryPage from './pages/LibraryPage';
+
+export default function App() {
+  const isAutheticated = useAuthStore((state) => state.isAuthenticated);
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center bg-slate-900 text-white">
-      <h1 className="text-3xl font-bold mb-4">My GameLib Collection</h1>
-      
-      <div className="mb-6 p-4 bg-slate-800 rounded-lg">
-        Amount of games: <span className="text-yellow-400 font-bold">{games.length}</span>
-      </div>
-
-      <button 
-        onClick={() => addGame({ id: Date.now(), title: 'New Game' })}
-        className="px-6 py-2 bg-green-600 rounded-lg hover:bg-green-500 transition"
-      >
-        Add game
-      </button>
-
-      <ul className="mt-4">
-        {games.map(game => (
-          <li key={game.id} className="text-gray-300">• {game.title}</li>
-        ))}
-      </ul>
-    </div>
-  )
+    //Auth Route
+    //If user is not Authenticated, redirect to /auth
+    //Main Route
+    //If user is Authenticated, redirect to /home
+    <BrowserRouter>
+      <Routes>
+        <Route path="/auth" element={!isAutheticated ? <AuthLayout /> : <Navigate to="/" replace />} />
+        <Route path="/" element={isAutheticated ? <LibraryPage /> : <Navigate to="/auth" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App
