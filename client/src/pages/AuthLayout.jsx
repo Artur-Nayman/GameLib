@@ -21,8 +21,8 @@ export default function AuthLayout() {
             case VIEWS.START:
            return (
             <div className="flex flex-col gap-4 w-64">
-                <button onClick={() => setCurrentView(VIEWS.LOGIN_METHODS)}>Log In</button>
-                <button onClick={() => setCurrentView(VIEWS.REGISTER_FORM)}>Register</button>
+                <button className="w-full py-3 px-4 bg-gray-800 border border-gray-700 rounded-md text-white hover:bg-gray-700 hover:border-gray-500 transition-colors flex items-center justify-center gap-2 font-medium" onClick={() => setCurrentView(VIEWS.LOGIN_METHODS)}>Log In</button>
+                <button className="w-full py-3 px-4 bg-gray-800 border border-gray-700 rounded-md text-white hover:bg-gray-700 hover:border-gray-500 transition-colors flex items-center justify-center gap-2 font-medium" onClick={() => setCurrentView(VIEWS.REGISTER_FORM)}>Register</button>
             </div>
         );     
         case VIEWS.LOGIN_METHODS:
