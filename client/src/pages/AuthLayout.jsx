@@ -10,6 +10,7 @@ const VIEWS = {
   START: 'START',
   LOGIN_METHODS: 'LOGIN_METHODS',
   LOGIN_FORM: 'LOGIN_FORM',
+  REGISTER_FORM: 'REGISTER_FORM',
 };
 
 export default function AuthLayout() {
@@ -21,13 +22,15 @@ export default function AuthLayout() {
            return (
             <div className="flex flex-col gap-4 w-64">
                 <button onClick={() => setCurrentView(VIEWS.LOGIN_METHODS)}>Log In</button>
-                <button onClick={() => setCurrentView(VIEWS.START)}>Register</button>
+                <button onClick={() => setCurrentView(VIEWS.REGISTER_FORM)}>Register</button>
             </div>
         );     
         case VIEWS.LOGIN_METHODS:
             return <AuthMethodsView onEmailClick={() => setCurrentView(VIEWS.LOGIN_FORM)} />;
         case VIEWS.LOGIN_FORM:
             return <EmailLoginForm onBack={() => setCurrentView(VIEWS.LOGIN_METHODS)} />;
+        case VIEWS.REGISTER_FORM:
+            return <EmailRegisterForm onBack={() => setCurrentView(VIEWS.START)} />;
         default:
             return null;
         }   
