@@ -1,8 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -10,5 +8,161 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum PlatformType {
+  STEAM
+  EPIC
+  GOG
+  OTHER
+}
+
+enum Provider {
+  STEAM
+  EPIC
+  GOG
+}
+
+enum TagSource {
+  STEAM
+  EPIC
+  GOG
+  USER
+}
+
+enum ProtonRating {
+  PLATINUM
+  GOLD
+  SILVER
+  BRONZE
+  BORKED
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model User {
+  id        String     @id @default(uuid()) @db.Uuid
+  email     String     @unique
+  username  String     @unique
+  password  String     @db.VarChar(255)
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  userGames UserGame[]
+
+  @@map("user")
+}
+
+model Category {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique
+  slug        String   @unique
+  description String?  @db.Text
+  sortOrder   Int?     @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  tags        Tag[]
+
+  @@map("categories")
+}
+
+model Tag {
+  id         String    @id @default(uuid()) @db.Uuid
+  name       String    @unique
+  slug       String    @unique
+  categoryId String    @map("category_id") @db.Uuid
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  category   Category  @relation(fields: [categoryId], references: [id])
+  gameTags   GameTag[]
+
+  @@map("tags")
+}
+
+model Platform {
+  id                String             @id @default(uuid()) @db.Uuid
+  name              String             @unique
+  slug              String             @unique
+  type              PlatformType
+  iconUrl           String?            @map("icon_url")
+  createdAt         DateTime           @default(now()) @map("created_at")
+  updatedAt         DateTime           @updatedAt @map("updated_at")
+  userGamePlatforms UserGamePlatform[]
+  gameExternalIds   GameExternalId[]
+
+  @@map("platforms")
+}
+
+model Game {
+  id              String           @id @default(uuid()) @db.Uuid
+  title           String           @db.VarChar(255)
+  slug            String           @unique @db.VarChar(255)
+  releaseDate     DateTime?        @map("release_date") @db.Date
+  coverImage      String?          @map("cover_image")
+  description     String?          @db.Text
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  userGames       UserGame[]
+  gameTags        GameTag[]
+  gameExternalIds GameExternalId[]
+  protonStatus    ProtonStatus?
+
+  @@map("games")
+}
+
+model UserGame {
+  id                String             @id @default(uuid()) @db.Uuid
+  userId            String             @map("user_id") @db.Uuid
+  gameId            String             @map("game_id") @db.Uuid
+  updatedAt         DateTime           @updatedAt @map("updated_at")
+  user              User               @relation(fields: [userId], references: [id])
+  game              Game               @relation(fields: [gameId], references: [id])
+  userGamePlatforms UserGamePlatform[]
+
+  @@map("user_games")
+}
+
+model UserGamePlatform {
+  userGameId String   @map("user_game_id") @db.Uuid
+  platformId String   @map("platform_id") @db.Uuid
+  addedAt    DateTime @default(now()) @map("added_at")
+  userGame   UserGame @relation(fields: [userGameId], references: [id])
+  platform   Platform @relation(fields: [platformId], references: [id])
+
+  @@id([userGameId, platformId])
+  @@map("user_game_platforms")
+}
+
+model GameExternalId {
+  id         String    @id @default(uuid()) @db.Uuid
+  gameId     String    @map("game_id") @db.Uuid
+  platformId String    @map("platform_id") @db.Uuid
+  provider   Provider
+  externalId String    @map("external_id")
+  syncedAt   DateTime? @map("synced_at")
+  game       Game      @relation(fields: [gameId], references: [id])
+  platform   Platform  @relation(fields: [platformId], references: [id])
+
+  @@map("game_external_ids")
+}
+
+model GameTag {
+  gameId String    @map("game_id") @db.Uuid
+  tagId  String    @map("tag_id") @db.Uuid
+  source TagSource
+  game   Game      @relation(fields: [gameId], references: [id])
+  tag    Tag       @relation(fields: [tagId], references: [id])
+
+  @@id([gameId, tagId])
+  @@map("game_tags")
+}
+
+model ProtonStatus {
+  gameId      String       @id @map("game_id") @db.Uuid
+  rating      ProtonRating
+  lastChecked DateTime?    @map("last_checked")
+  game        Game         @relation(fields: [gameId], references: [id])
+
+  @@map("proton_status")
 }
